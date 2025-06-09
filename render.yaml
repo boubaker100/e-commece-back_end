@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: ecommerce-backend
+    env: docker
+    plan: free
+    region: frankfurt
+    branch: master
+    rootDir: .
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_DEBUG
+        value: false
+      - key: APP_URL
+        value: https://ecommerce-backend.onrender.com
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        value: dpg-d13ahkruibrs7380fmk0-a.frankfurt-postgres.render.com
+      - key: DB_PORT
+        value: 5432
+      - key: DB_DATABASE
+        value: ecommerce_back_end_a4gl
+      - key: DB_USERNAME
+        value: commerce_back_end_a4gl_user
+      - key: DB_PASSWORD
+        value: GK7ypzEK7TtZOaaAhxv56sPbQHIzEiF6
+
