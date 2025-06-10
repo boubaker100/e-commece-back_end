@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/run-seeder', function () {
+    Artisan::call('migrate:fresh --seed');
+    return 'Database seeded!';
+});
+
 
 Route::get('/', function () {
     return view('welcome');
