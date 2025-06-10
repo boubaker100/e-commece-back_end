@@ -22,7 +22,7 @@ COPY . /var/www/html
 WORKDIR /var/www/html
 
 # تثبيت باقات Laravel
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --optimize-autoloader
 
 # إعطاء صلاحيات
 RUN chown -R www-data:www-data /var/www/html \
