@@ -35,5 +35,4 @@ RUN a2enmod rewrite
 COPY ./apache.conf /etc/apache2/sites-available/000-default.conf
 
 EXPOSE 80
-CMD php artisan migrate --force && php artisan db:seed --force && apache2-foreground
-
+CMD ["apache2-foreground"]
