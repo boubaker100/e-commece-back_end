@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     git \
     libpq-dev \
+    netcat \
     && docker-php-ext-install pdo pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd
 
 # تثبيت Composer
