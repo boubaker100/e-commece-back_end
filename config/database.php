@@ -72,8 +72,8 @@ return [
     'charset' => 'utf8',
     'prefix' => '',
     'schema' => 'public',
-    'sslmode' => env('DB_SSLMODE', 'prefer'),
-    'options' => extension_loaded('pdo_pgsql') ? [] : [], // إزالة PDO::PGSQL_ATTR_SSL_MODE
+    'sslmode' => 'prefer',
+ 
 ],
 
         'sqlsrv' => [

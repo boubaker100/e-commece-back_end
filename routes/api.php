@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
@@ -40,13 +39,8 @@ Route::get('/latest-sale', [ProductController::class, 'getLastSaleProducts']);
 Route::get('/latest', [ProductController::class, 'getLatest']);
 Route::get('/top-rated', [ProductController::class, 'getTopRated']);
 
-Route::post('/cart/check', [CartController::class, 'check']);
-
-
 Route::get('/login-google', [socialAuthController::class, 'redirectToProvider']);
 Route::get('/auth/google/callback', [socialAuthController::class, 'handleCallback']);
-
-
 
 // Protected Routes
 Route::middleware('auth:api')->group(function () {
@@ -81,10 +75,6 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/product-img/add', 'store');
         Route::delete('/product-img/{id}', 'destroy');
     });
-
-    Route::post('/cart', [CartController::class, 'store']);
-    Route::get('/cart', [CartController::class, 'index']);
-
 
     // Auth
     Route::get('/logout', [AuthController::class, 'logout']);

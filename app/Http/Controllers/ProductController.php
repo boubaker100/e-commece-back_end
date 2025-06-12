@@ -63,8 +63,7 @@ class ProductController extends Controller
             'description' => 'required',
             'price' => 'required | numeric',
             'discount' => 'required | numeric',
-            'About' => 'required',
-            'stock' => 'required | numeric'
+            'About' => 'required'
         ]);
         $productCreated = $product->create([
             'category' => $request->category,
@@ -73,8 +72,6 @@ class ProductController extends Controller
             'price' => $request->price,
             'About' => $request->About,
             'discount' => $request->discount,
-            'stock' => $request->stock
-
         ]);
         return $productCreated;
     }
@@ -107,7 +104,6 @@ class ProductController extends Controller
             'description' => 'required',
             'price' => 'required | numeric',
             'discount' => 'required | numeric',
-            'stock' => 'required | numeric',
             'About' => 'required'
         ]);
         $product->update([
@@ -117,21 +113,20 @@ class ProductController extends Controller
             'price' => $request->price,
             'About' => $request->About,
             'discount' => $request->discount,
-            'stock' => $request->stock
 
         ]);
         $product->status = 'published';
         $product->save();
         $productId = $product->id;
-        if ($request->hasFile('images')) {
-            $files = $request->file("images");
+        if ($request->hasFile('Images')) {
+            $files = $request->file("Images");
             $i = 0;
             foreach ($files as $file) {
                 $i = $i + 1;
                 $image = new ProductImage();
                 $image->product_id = $productId;
                 $filename = date('YmdHis') . $i . '.' . $file->getClientOriginalExtension();
-                $path = 'images';
+                $path = 'Images';
                 $file->move($path, $filename);
                 $image->image = url('/') . '/images/' . $filename;
                 $image->save();
