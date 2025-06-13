@@ -28,4 +28,22 @@ class Product extends Model
     {
         return $this->hasMany(Cart::class);
     }
+
+ public function showLatestProduct()
+    {
+        // هنا يتم استخدام الكود الخاص بك بشكل صحيح
+        $latestProduct = Product::with('images') // تحميل الصور
+                                ->orderBy('created_at', 'desc') // الترتيب
+                                ->first(); // جلب أول نتيجة
+
+        if ($latestProduct) {
+            // إذا كنت تريد إرجاعها كـ JSON API response
+            return response()->json($latestProduct);
+
+            // أو إذا كنت تريد تمريرها إلى View
+            // return view('products.latest', ['product' => $latestProduct]);
+        } else {
+            return response()->json(['message' => 'No products found'], 404);
+        }
+    }
 }
