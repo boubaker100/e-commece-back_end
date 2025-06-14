@@ -6,10 +6,7 @@ until nc -z "$DB_HOST" "$DB_PORT"; do
   sleep 2
 done
 
-echo "✅ قاعدة البيانات جاهزة، جاري تنفيذ التهيئة..."
+echo "✅ قاعدة البيانات جاهزة، جاري تشغيل الخادم..."
 
-# تنفيذ المهاجرات والسييد
-php artisan migrate --seed --force
-
-# تشغيل Apache
+# ✅ لا يوجد تهجير، فقط تشغيل الخادم
 apache2-foreground

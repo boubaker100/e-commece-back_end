@@ -1,0 +1,12 @@
+node_modules
+vendor
+.git
+*.log
+*.env
+storage/
+tests/
+docker-compose.override.yml
+Dockerfile
+docker-compose.yml
+README.md
+
