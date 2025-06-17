@@ -12,7 +12,6 @@ services:
         value: production
       - key: APP_KEY
         generateValue: true
-        value: base64:q94R9ImidYxd2we5hYDs9bt8eZKB5pYXhWq6TqG0Dx4=
       - key: APP_DEBUG
         value: "false"
       - key: APP_URL
