@@ -19,4 +19,4 @@ php artisan migrate --force || exit 1
 echo "✅ قاعدة البيانات جاهزة، جاري تشغيل الخادم..."
 
 # بدء Apache
-apache2-foreground
+exec apache2-foreground
