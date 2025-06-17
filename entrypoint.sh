@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# تأكد من وجود مجلدات Laravel المهمة
-mkdir -p storage/framework/{cache,sessions,views} bootstrap/cache
+# إنشاء مجلدات Laravel المهمة
+mkdir -p storage/framework/{sessions,views,cache} bootstrap/cache
 
 # إعطاء الصلاحيات
 chown -R www-data:www-data storage bootstrap/cache
@@ -13,10 +13,10 @@ until nc -z "$DB_HOST" "$DB_PORT"; do
   sleep 2
 done
 
-# تهجير القاعدة
-php artisan migrate --force || exit 1
+# التهجير
+php artisan migrate --force
 
 echo "✅ قاعدة البيانات جاهزة، جاري تشغيل الخادم..."
 
-# بدء Apache
+# تشغيل Apache
 exec apache2-foreground

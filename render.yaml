@@ -28,3 +28,7 @@ services:
         value: ecommerce_back_end_oxse_user
       - key: DB_PASSWORD
         value: WOTTmVCB6lWAtOUaaRhTViVfc3vsm5hB
+      - key: DB_SSLMODE
+        value: require
+      
+        
