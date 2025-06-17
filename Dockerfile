@@ -12,7 +12,7 @@ WORKDIR /var/www/html
 
 RUN composer install --optimize-autoloader --no-dev
 
-RUN mkdir -p storage bootstrap/cache \
+RUN mkdir -p storage/framework/{sessions,views,cache} bootstrap/cache \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 775 storage bootstrap/cache
 
