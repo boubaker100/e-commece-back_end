@@ -1,9 +1,10 @@
 FROM php:8.2-apache
 
-# تثبيت الحزم المطلوبة
+# تثبيت التبعيات الأساسية (أضف libzip-dev و zip)
 RUN apt-get update && apt-get install -y \
-    libpng-dev libonig-dev libxml2-dev zip unzip curl git libpq-dev netcat-openbsd \
-    && docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd
+    libpng-dev libonig-dev libxml2-dev libzip-dev libpq-dev \
+    zip unzip curl git netcat-openbsd \
+    && docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd zip
 
 # تثبيت Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -12,13 +13,18 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY . /var/www/html
 WORKDIR /var/www/html
 
+# إنشاء المجلدات المهمة + صلاحيات (بدون chown هنا)
+RUN mkdir -p storage/framework/{sessions,views,cache} bootstrap/cache
+
 # تثبيت الباكدج بدون dev
 RUN composer install --optimize-autoloader --no-dev
 
-# إنشاء المجلدات المهمة + صلاحيات
-RUN mkdir -p storage/framework/{sessions,views,cache} bootstrap/cache \
-    && chown -R www-data:www-data /var/www/html \
+# تعيين الصلاحيات بعد تثبيت التبعيات
+RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 storage bootstrap/cache
+
+# إنشاء رابط التخزين
+RUN php artisan storage:link
 
 # إعداد Apache
 RUN a2enmod rewrite
