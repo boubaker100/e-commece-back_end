@@ -49,7 +49,12 @@ if [ "$APP_ENV" = "production" ]; then
     php artisan config:cache
     php artisan route:cache
     php artisan view:cache
+    php artisan optimize:clear
+else
+    echo "🔧 تشغيل في بيئة التطوير، لا حاجة لتحسين الأداء."
 fi
+tail -n 100 storage/logs/laravel.log
+
 
 echo "✅ تم الانتهاء من التهيئة، جاري تشغيل الخادم..."
 
