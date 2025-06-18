@@ -17,7 +17,7 @@ services:
       - key: APP_STORAGE
         value: /var/www/html/storage
       - key: APP_URL
-        value: https://ecommerce-back-end.onrender.com
+        value: https://e-commece-back-end-vwjl.onrender.com
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_HOST
