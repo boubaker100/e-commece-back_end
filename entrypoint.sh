@@ -30,6 +30,12 @@ until nc -z "$DB_HOST" "$DB_PORT"; do
   echo "⏳ في انتظار قاعدة البيانات على $DB_HOST:$DB_PORT ..."
   sleep 2
 done
+php artisan cache:table
+php artisan session:table
+php artisan queue:table
+
+# التأكد من أن قاعدة البيانات متاحة
+
 
 echo "✅ قاعدة البيانات متاحة"
 
