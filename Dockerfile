@@ -19,9 +19,13 @@ RUN mkdir -p storage/framework/{sessions,views,cache} bootstrap/cache
 # تثبيت الباكدج بدون dev
 RUN composer install --optimize-autoloader --no-dev
 
+# إنشاء رابط رمزي للتخزين الصحيح
+RUN ln -s /var/www/html/storage /var/www/storage
 # تعيين الصلاحيات بعد تثبيت التبعيات
 RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 storage bootstrap/cache
+    && chmod -R 775 storage bootstrap/cache \
+      && chmod -R 775 storage bootstrap/cache \
+      && chmod -R 777 storage/framework
 
 # إنشاء رابط التخزين
 RUN php artisan storage:link

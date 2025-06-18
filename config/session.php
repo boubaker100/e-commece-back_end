@@ -1,9 +1,19 @@
 <?php
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Env;
+
+
+
+// حل خاص لبيئة Docker
+if (Env::get('APP_IN_DOCKER')) {
+    ini_set('session.save_path', '/var/www/html/storage/framework/sessions');
+}
+
 
 return [
 
+    
     /*
     |--------------------------------------------------------------------------
     | Default Session Driver
@@ -59,8 +69,7 @@ return [
     |
     */
 
-    'files' => storage_path('framework/sessions'),
-
+'files' => '/var/www/html/storage/framework/sessions',
     /*
     |--------------------------------------------------------------------------
     | Session Database Connection
