@@ -9,7 +9,8 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - .:/var/www/html
+     # - .:/var/www/html
+
   
     environment:
       PASSPORT_PRIVATE_KEY: -----BEGIN PRIVATE KEY-----
