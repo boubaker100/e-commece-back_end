@@ -57,5 +57,9 @@ class AuthController extends Controller
     {
         $request->user()->token()->revoke();
         return response()->json(['message' => 'Successfully logged out'], 200);
+  
+    \Log::error('Login attempt', ['data' => $request->all()]);
+    return response()->json(['msg' => 'Testing login'], 200);
+  
     }
 }
