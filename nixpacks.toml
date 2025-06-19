@@ -1,2 +1,12 @@
 [phases.setup]
-nixpkgs = ["php82", "php82Extensions.pdo_mysql", "php82Extensions.tokenizer", "php82Packages.composer"]
+nixpkgs = [
+  "php82",
+  "php82Extensions.pdo_mysql", # استخدم pdo_pgsql إذا كنت مع PostgreSQL
+  "php82Packages.composer"
+]
+
+[phases.build]
+cmds = [
+  "composer install",
+  "php artisan migrate --force"
+]
