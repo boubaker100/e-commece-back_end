@@ -50,12 +50,17 @@ class AuthController extends Controller
             'user' => $user,
             'token' => $token,
         ], 200);
+        \Log::error('Login failed', ['request' => $request->all()]);
+        \Log::info('Login attempt', ['data' => $request->all()]);
+        return response()->json(['msg' => 'Testing login'], 200);
     }
+
+
 
     // Logout Method
     public function logout(Request $request)
     {
-        $request->user()->token()->revoke();
+        $user = Auth::user()->token()->revoke();
         return response()->json(['message' => 'Successfully logged out'], 200);
   
     \Log::error('Login attempt', ['data' => $request->all()]);

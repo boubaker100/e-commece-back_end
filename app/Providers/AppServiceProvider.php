@@ -19,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+         \Log::info('Login Attempt Received', request()->all());
+
     }
 }
