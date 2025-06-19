@@ -1,8 +1,11 @@
 [phases.setup]
 nixpkgsArchive = "https://github.com/NixOS/nixpkgs/archive/refs/tags/22.11.tar.gz"
 
-[phases.build]
+[phases.install]
 nixPackages = ["php82", "php82Packages.composer"]
+
+[phases.build]
+cmds = ["composer install --no-interaction --prefer-dist --optimize-autoloader"]
 
 [phases.start]
 cmd = "php artisan serve --host=0.0.0.0 --port=$PORT"
