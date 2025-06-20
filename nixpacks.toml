@@ -3,10 +3,16 @@ nixPkgs = ["php82", "php82Packages.composer", "nodejs_20"]
 
 [phases.build]
 cmds = [
-  "mkdir -p bootstrap/cache",
+  "mkdir -p bootstrap/cache", 
+  "chmod -R 775 bootstrap/cache",           # ✅ تأكد من صلاحيات الكتابة
+  "chmod -R 775 storage",                   # ✅ تأكد من صلاحيات الكتابة
+  "chmod -R 775 public",                    # ✅ تأكد من صلاحيات الكتابة
   "cp .env.example .env",
   "composer install",
   "php artisan key:generate",
+  "php artisan config:cache",
+  "php artisan route:cache",
+  "php artisan view:cache",
   "npm ci",
   "npm run build"
 ]
