@@ -26,7 +26,8 @@ WORKDIR /var/www
 
 # نسخ كل الملفات
 COPY . .
-
+# إعداد ملف .env
+RUN cp .env.example .env
 # تثبيت باكج Laravel
 RUN composer install --no-dev --optimize-autoloader
 
