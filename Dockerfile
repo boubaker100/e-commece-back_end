@@ -29,7 +29,6 @@ COPY . .
 
 # تثبيت الحزم
 RUN composer install --no-dev --optimize-autoloader
-RUN php artisan migrate:fresh --seed --force
 
 
 # نسخ سكربت التشغيل
