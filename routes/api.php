@@ -18,6 +18,11 @@ Route::get('/test-db', function () {
     }
 });
 
+Route::get('/healthz', function () {
+    return response()->json(['status' => 'ok']);
+});
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
