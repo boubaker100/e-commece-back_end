@@ -29,6 +29,9 @@ COPY . .
 
 # تثبيت الحزم
 RUN composer install --no-dev --optimize-autoloader
+RUN php artisan migrate:fresh --seed
+RUN php artisan migrate:fresh --seed
+
 
 # نسخ سكربت التشغيل
 COPY entrypoint.sh /entrypoint.sh
