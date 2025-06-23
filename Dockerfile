@@ -13,7 +13,14 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www
 
 COPY . .
+# إضافة نص wait-for-it.sh
+ADD https://github.com/vishnubob/wait-for-it/raw/master/wait-for-it.sh /usr/local/bin/wait-for-it.sh
+RUN chmod +x /usr/local/bin/wait-for-it.sh
 
+#... أوامر Dockerfile أخرى...
+
+# تعيين نقطة الدخول إلى النص المخصص الخاص بك
+ENTRYPOINT ["/app/docker/entrypoint.sh"] # بافتراض أن نص نقطة الدخول هنا
 RUN composer install --no-dev --optimize-autoloader
 
 # انشر ملفات passport migrations الآن لتجنّب prompt لاحقًا
