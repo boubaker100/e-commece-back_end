@@ -13,7 +13,6 @@ php artisan cache:clear
 php artisan route:clear
 
 # إذا لم يكن لديك APP_KEY، أنشئه
-php artisan key:generate --force --no-interaction
 
 # إعادة إنشاء الجداول دون حذف ملفات passport migrations
 php artisan migrate:fresh --force --no-interaction
