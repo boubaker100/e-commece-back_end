@@ -1,27 +1,28 @@
 #!/bin/sh
 
-# 1) إذا لم يكن ملف .env موجودًا، أنشئه من المثال لكي لا يفشل الـ key:generate
-if [ ! -f /var/www/.env ]; then
-  cp /var/www/.env.example /var/www/.env
+cd /var/www
+
+# إذا .env غير موجود، أنشئه
+if [ ! -f .env ]; then
+  cp .env.example .env
 fi
 
-# 2) مسح الكاش حتى يقرأ Laravel متغيرات البيئة من Dashboard
+# قراءة متغيرات البيئة من Render (config:cache يقرأ env vars)
 php artisan config:clear
 php artisan cache:clear
 php artisan route:clear
 
-# 3) لا تُنشئ مفتاح جديد إذا كان لديك APP_KEY مُعين كـ env var
-#    بل فقط إن اختفت القيمة.
-php artisan key:generate --force
+# إذا لم يكن لديك APP_KEY، أنشئه
+php artisan key:generate --force --no-interaction
 
-# 4) أنشُئ جداول القاعدة
-php artisan migrate:fresh --force
+# إعادة إنشاء الجداول دون حذف ملفات passport migrations
+php artisan migrate:fresh --force --no-interaction
 
-# 5) أنشِئ عملاء Passport (personal + password grant)
-php artisan passport:install --force
+# تثبيت Passport (بدون prompt)
+php artisan passport:install --force --no-interaction
 
-# 6) شغّل Seeder
-php artisan db:seed --force
+# تشغيل Seeder
+php artisan db:seed --force --no-interaction
 
-# 7) شغّل السيرفر
+# تشغيل السيرفر
 php artisan serve --host=0.0.0.0 --port=8000

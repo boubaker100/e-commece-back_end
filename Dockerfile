@@ -1,37 +1,24 @@
 FROM php:8.3-fpm
 
-# تثبيت المتطلبات
+# تثبيت الحزم اللازمة
 RUN apt-get update && apt-get install -y \
-    build-essential \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    zip \
-    unzip \
-    curl \
-    git \
-    libonig-dev \
-    libxml2-dev \
-    libzip-dev \
-    libpq-dev \
-    libssl-dev \
-    default-mysql-client \
+    zip unzip git curl default-mysql-client \
+    libpng-dev libjpeg-dev libfreetype6-dev \
+    libonig-dev libxml2-dev libzip-dev libssl-dev \
     && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip
 
 # Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# مكان المشروع
 WORKDIR /var/www
 
-# نسخ المشروع
 COPY . .
 
-# تثبيت الحزم
 RUN composer install --no-dev --optimize-autoloader
 
+# انشر ملفات passport migrations الآن لتجنّب prompt لاحقًا
+RUN php artisan vendor:publish --tag=passport-migrations --force
 
-# نسخ سكربت التشغيل
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
