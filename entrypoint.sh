@@ -1,15 +1,18 @@
-#!/bin/bash
+#!/bin/sh
 
-# Laravel commands
+# Clear caches (اختياري)
 php artisan config:clear
-php artisan key:generate
-php artisan migrate --force || true
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+php artisan cache:clear
+php artisan route:clear
 
-# تنفيذ التهجير + seeder مرّة واحدة عند التشغيل
-php artisan migrate --seed --force
+# Generate app key if missing
+php artisan key:generate --force
 
-# Start Laravel server
+# إنشاء عملاء Passport
+php artisan passport:install --force
+
+# Run migrations and seed database
+php artisan migrate:fresh --seed --force
+
+# Start the server
 php artisan serve --host=0.0.0.0 --port=8000
