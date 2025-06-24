@@ -1,34 +1,24 @@
-FROM php:8.3-fpm
+FROM php:8.2-fpm
 
-# تثبيت الحزم اللازمة
+# تثبيت الحزم الأساسية
 RUN apt-get update && apt-get install -y \
-    zip unzip git curl default-mysql-client \
-    libpng-dev libjpeg-dev libfreetype6-dev \
-    libonig-dev libxml2-dev libzip-dev libssl-dev \
-    && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip
+    git curl libpq-dev zip unzip libonig-dev libxml2-dev libzip-dev \
+    && docker-php-ext-install pdo pdo_pgsql mbstring xml zip
 
 # Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 
 COPY . .
-# إضافة نص wait-for-it.sh
-ADD https://github.com/vishnubob/wait-for-it/raw/master/wait-for-it.sh /usr/local/bin/wait-for-it.sh
-RUN chmod +x /usr/local/bin/wait-for-it.sh
 
-#... أوامر Dockerfile أخرى...
-
-# تعيين نقطة الدخول إلى النص المخصص الخاص بك
-ENTRYPOINT ["/app/docker/entrypoint.sh"] # بافتراض أن نص نقطة الدخول هنا
+# تثبيت البكجات
 RUN composer install --no-dev --optimize-autoloader
 
-# انشر ملفات passport migrations الآن لتجنّب prompt لاحقًا
-RUN php artisan vendor:publish --tag=passport-migrations --force
+# إعدادات Laravel
+RUN php artisan config:cache
 
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-
-EXPOSE 8000
-
-CMD ["/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]

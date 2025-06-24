@@ -9,17 +9,11 @@ use App\Http\Controllers\UsersContoller;
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/test-db', function () {
-    try {
-        DB::connection()->getPdo();
-        return response()->json(['message' => '✅ Connected to database!']);
-    } catch (\Exception $e) {
-        return response()->json(['error' => '❌ DB Error: ' . $e->getMessage()]);
-    }
-});
-
-Route::get('/healthz', function () {
-    return response()->json(['status' => 'ok']);
+ Route::get('/run-seeder', function () {
+    // هذا الأمر يشغل migrate + seed مرة واحدة
+    Artisan::call('migrate:fresh', ['--force' => true]);
+    Artisan::call('db:seed',  ['--force' => true]);
+    return response('✅ Database seeded!', 200);
 });
 
 
