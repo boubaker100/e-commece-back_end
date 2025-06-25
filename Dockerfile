@@ -18,7 +18,9 @@ RUN composer install --no-dev --optimize-autoloader
 # إعدادات Laravel
 RUN php artisan config:cache
 
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# نسخ السكريبت الخاص بالتنفيذ
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+
+# نقطة الدخول
 ENTRYPOINT ["/entrypoint.sh"]
