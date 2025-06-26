@@ -1,26 +1,25 @@
 FROM php:8.2-fpm
 
-# تثبيت الحزم الأساسية
+# تثبيت الحزم المطلوبة
 RUN apt-get update && apt-get install -y \
     git curl libpq-dev zip unzip libonig-dev libxml2-dev libzip-dev \
     && docker-php-ext-install pdo pdo_pgsql mbstring xml zip
 
-# Composer
+# تثبيت Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-WORKDIR /var/www
+# تحديد مجلد العمل داخل الحاوية
+WORKDIR /var/www/html
 
-COPY . .
+# نسخ الملفات إلى الحاوية
+COPY . /var/www/html
 
-# تثبيت البكجات
+# تثبيت مكتبات Laravel بدون بيئة dev
 RUN composer install --no-dev --optimize-autoloader
 
-# إعدادات Laravel
-RUN php artisan config:cache
-
-# نسخ السكريبت الخاص بالتنفيذ
+# نسخ السكربت
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# نقطة الدخول
+# نقطة الدخول (entrypoint)
 ENTRYPOINT ["/entrypoint.sh"]
