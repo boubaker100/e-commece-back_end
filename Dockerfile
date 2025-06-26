@@ -16,6 +16,7 @@ COPY . /var/www/html
 
 # تثبيت مكتبات Laravel بدون بيئة dev
 RUN composer install --no-dev --optimize-autoloader
+EXPOSE 8000
 
 # نسخ السكربت
 COPY entrypoint.sh /entrypoint.sh
