@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Artisan;
 
 
@@ -21,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-         \Log::info('Login Attempt Received', request()->all());
+         Log::info('Login Attempt Received', request()->all());
           // توليد مفاتيح Passport تلقائيًا إذا كانت البيئة production
         if (app()->environment('production')) {
             try {
