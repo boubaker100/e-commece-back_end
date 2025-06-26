@@ -18,7 +18,7 @@ return [
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
-    'allowed_origins' => ['http://localhost:3000','https://e-commerce-gamma-liart.vercel.app/'],
+    'allowed_origins' => ['https://e-commerce-gamma-liart.vercel.app'],
     'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
