@@ -28,4 +28,5 @@ php artisan migrate --force || true
 php artisan passport:keys --force || true
 
 # تشغيل Laravel باستخدام php-fpm (وهو ما يستعمله Render داخليًا)
-exec php-fpm
+
+exec php artisan serve --host=0.0.0.0 --port=8000
