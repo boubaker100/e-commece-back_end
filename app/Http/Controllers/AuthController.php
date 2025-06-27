@@ -23,7 +23,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $isAdmin ? 1995 : 2001,
+            'role' => $request->role,
         ]);
         $token = $user->createToken('token')->accessToken;
         $refreshToken = $user->createToken('authTokenRefresh')->accessToken;
