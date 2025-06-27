@@ -9,11 +9,14 @@ use App\Http\Controllers\UsersContoller;
 
 use Illuminate\Support\Facades\Route;
 
- Route::get('/run-seeder', function () {
-    // هذا الأمر يشغل migrate + seed مرة واحدة
-    Artisan::call('migrate:fresh', ['--force' => true]);
-    Artisan::call('db:seed',  ['--force' => true]);
-    return response('✅ Database seeded!', 200);
+Route::get('/run-migrate', function () {
+    Artisan::call('migrate', ['--force' => true]);
+    return 'Migration executed!';
+});
+
+Route::get('/check-role-default', function () {
+    $default = DB::select("SELECT column_default FROM information_schema.columns WHERE table_name = 'users' AND column_name = 'role'");
+    return $default;
 });
 
 
