@@ -23,7 +23,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-             'role' => 1995,
+            
         ]);
         $token = $user->createToken('token')->accessToken;
         $refreshToken = $user->createToken('authTokenRefresh')->accessToken;
