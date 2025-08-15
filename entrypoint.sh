@@ -24,9 +24,11 @@ php artisan view:cache
 # تشغيل المايغريشن
 php artisan migrate --force || true
 
+# تشغيل الـ Seeder لملء الجداول بالبيانات
+php artisan db:seed --force || true
+
 # توليد مفاتيح Laravel Passport
 php artisan passport:keys --force || true
 
-# تشغيل Laravel باستخدام php-fpm (وهو ما يستعمله Render داخليًا)
-
+# تشغيل Laravel
 exec php artisan serve --host=0.0.0.0 --port=8000
