@@ -2,11 +2,14 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.1",
-        "doctrine/dbal": "*",
+        "doctrine/dbal": "3.2",
         "fakerphp/faker": "^1.24",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
