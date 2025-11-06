@@ -14,15 +14,14 @@ WORKDIR /var/www/html
 # نسخ الملفات إلى الحاوية
 COPY . /var/www/html
 
-# تثبيت مكتبات Laravel بدون بيئة dev
-RUN php artisan migrate --force && php artisan db:seed --force
+# تثبيت مكتبات Laravel
+RUN composer install --no-dev --optimize-autoloader
 
-RUN composer update --no-dev --optimize-autoloader
 EXPOSE 8000
 
 # نسخ السكربت
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# نقطة الدخول (entrypoint)
+# نقطة الدخول
 ENTRYPOINT ["/entrypoint.sh"]
