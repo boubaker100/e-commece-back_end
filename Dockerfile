@@ -15,6 +15,8 @@ WORKDIR /var/www/html
 COPY . /var/www/html
 
 # تثبيت مكتبات Laravel بدون بيئة dev
+RUN php artisan migrate --force && php artisan db:seed --force
+
 RUN composer update --no-dev --optimize-autoloader
 EXPOSE 8000
 
