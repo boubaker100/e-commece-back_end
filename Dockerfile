@@ -15,7 +15,7 @@ WORKDIR /var/www/html
 COPY . /var/www/html
 
 # تثبيت مكتبات Laravel
-RUN composer install --no-dev --optimize-autoloader
+RUN composer update --no-dev --optimize-autoloader
 
 EXPOSE 8000
 
