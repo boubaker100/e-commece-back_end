@@ -1,5 +1,4 @@
 #!/bin/sh
-
 cd /var/www/html
 set -e
 
@@ -12,13 +11,18 @@ mkdir -p storage/framework/sessions \
 # إعطاء صلاحيات الكتابة
 chmod -R 775 storage bootstrap/cache
 
-# تنظيف الكاش وتحديثه
+# تنظيف الكاش وتحديثه بالترتيب الصحيح
 php artisan config:clear
+php artisan cache:clear
+php artisan route:clear
+php artisan view:clear
+
+# إعادة بناء الكاش بعد التعديلات
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 
-# تشغيل المايغريشن والسييدرز معًا
+# تشغيل المايغريشن والسييدرز
 php artisan migrate --seed --force
 
 # توليد مفاتيح Laravel Passport

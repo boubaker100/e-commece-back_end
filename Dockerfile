@@ -33,3 +33,4 @@ EXPOSE 10000
 
 # الأمر الذي سيشغّل Laravel (Render سيحدد PORT)
 CMD php artisan serve --host 0.0.0.0 --port $PORT
+ 
