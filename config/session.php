@@ -69,7 +69,9 @@ return [
     |
     */
 
-'files' => '/var/www/html/storage/framework/sessions',
+'files' => env('APP_IN_DOCKER') 
+    ? '/var/www/html/storage/framework/sessions'
+    : storage_path('framework/sessions'),
     /*
     |--------------------------------------------------------------------------
     | Session Database Connection
