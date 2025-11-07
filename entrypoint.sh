@@ -1,37 +1,49 @@
 #!/bin/sh
-cd /var/www/html
 set -e
 
-echo "🚀 [1/6] Starting deployment entrypoint..."
+echo "🚀 Starting Laravel initialization..."
 
-# إنشاء المجلدات المهمة
-echo "📁 [2/6] Creating storage folders..."
-mkdir -p storage/framework/sessions \
-         storage/framework/views \
-         storage/framework/cache \
-         bootstrap/cache
+cd /var/www/html
 
-# صلاحيات الكتابة
-echo "🔒 [3/6] Setting permissions..."
+# 1️⃣ توليد مفتاح التطبيق إذا لم يكن موجودًا
+if [ -z "$APP_KEY" ]; then
+  echo "🔑 Generating APP_KEY..."
+  php artisan key:generate --force
+else
+  echo "✅ APP_KEY already exists, skipping."
+fi
+
+# 2️⃣ تشغيل المايغريشن والسييد فقط إذا لم تكن الجداول موجودة
+if ! php artisan migrate:status | grep -q "Yes"; then
+  echo "📦 Running migrations and seeders..."
+  php artisan migrate --force --seed
+else
+  echo "✅ Database tables already exist, skipping migrations."
+fi
+
+# 3️⃣ تثبيت Laravel Passport فقط إذا لم تكن المفاتيح موجودة
+if [ ! -f "storage/oauth-private.key" ]; then
+  echo "🔐 Installing Laravel Passport..."
+  php artisan passport:install --force || true
+else
+  echo "✅ Passport keys already exist, skipping."
+fi
+
+# 4️⃣ ضبط صلاحيات المجلدات
+echo "🔧 Fixing permissions..."
 chmod -R 775 storage bootstrap/cache
+chown -R www-data:www-data storage bootstrap/cache
 
-# تنظيف الكاش
-echo "🧹 [4/6] Clearing caches..."
-php artisan config:clear || echo "⚠️ config:clear failed"
-php artisan cache:clear || echo "⚠️ cache:clear failed"
-php artisan route:clear || echo "⚠️ route:clear failed"
-php artisan view:clear || echo "⚠️ view:clear failed"
+# 5️⃣ تنظيف الكاش وإعادة بنائه
+echo "🧹 Clearing and rebuilding caches..."
+php artisan config:clear || true
+php artisan cache:clear || true
+php artisan route:clear || true
+php artisan view:clear || true
+php artisan config:cache || true
+php artisan route:cache || true
+php artisan view:cache || true
 
-# إعادة بناء الكاش
-echo "⚙️ [5/6] Rebuilding caches..."
-php artisan config:cache || echo "⚠️ config:cache failed"
-php artisan route:cache || echo "⚠️ route:cache failed"
-php artisan view:cache || echo "⚠️ view:cache failed"
-
-# ✅ لا نعيد إنشاء الجداول أو المفاتيح
-echo "✅ [6/6] Skipping migrations and passport key generation"
-
-echo "🚀 Starting Laravel server..."
+# 6️⃣ تشغيل Laravel
+echo "🌍 Starting Laravel server on port ${PORT:-8000}..."
 exec php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
-
-echo "🚀 Deployment entrypoint completed."

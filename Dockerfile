@@ -19,18 +19,16 @@ WORKDIR /var/www/html
 # نسخ ملفات المشروع
 COPY . .
 
-# تثبيت الـ PHP packages
+# تثبيت الحزم
 RUN composer install --no-dev --optimize-autoloader
 
-# توليد key إذا لم يكن موجود (يمكن تغييره لاحقًا)
-RUN php artisan key:generate --show
-
-# تعديل أذونات التخزين
+# تعديل أذونات المجلدات
 RUN chown -R www-data:www-data storage bootstrap/cache
 
-# إتاحة البورت الخاص بـ Render
-EXPOSE 10000
+# نسخ وتشغيل سكريبت التشغيل
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
 
-# الأمر الذي سيشغّل Laravel (Render سيحدد PORT)
-CMD php artisan serve --host 0.0.0.0 --port $PORT
- 
+# فتح المنفذ
+EXPOSE 10000
