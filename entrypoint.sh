@@ -32,4 +32,6 @@ php artisan view:cache || echo "⚠️ view:cache failed"
 echo "✅ [6/6] Skipping migrations and passport key generation"
 
 echo "🚀 Starting Laravel server..."
-exec php artisan serve --host=0.0.0.0 --port=8000
+exec php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
+
+echo "🚀 Deployment entrypoint completed."
